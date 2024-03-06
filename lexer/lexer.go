@@ -44,14 +44,20 @@ func (l *Lexer) readIdentifier() token.Token {
 		l.nextChar()
 	}
 
-	switch tok.Literal {
-	case "let":
-		tok.Type = token.LET
-	case "fn":
-		tok.Type = token.FUNCTION
-	default:
+	tok_type, ok := token.Keywords[tok.Literal]
+	if ok {
+		tok.Type = tok_type
+	} else {
 		tok.Type = token.IDENT
 	}
+	// switch tok.Literal {
+	// case "let":
+	// 	tok.Type = token.LET
+	// case "fn":
+	// 	tok.Type = token.FUNCTION
+	// default:
+	// 	tok.Type = token.IDENT
+	// }
 
 	return tok
 }
@@ -85,7 +91,12 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = createToken(token.EQUAL, l.ch)
+		if l.peekChar() == '=' {
+			tok = token.Token{Type: token.EQUAL, Literal: "=="}
+			l.nextChar()
+		} else {
+			tok = createToken(token.ASSIGN, l.ch)
+		}
 	case '+':
 		tok = createToken(token.ADD, l.ch)
 	case '(':
@@ -98,6 +109,23 @@ func (l *Lexer) NextToken() token.Token {
 		tok = createToken(token.R_BR, l.ch)
 	case ',':
 		tok = createToken(token.COMMA, l.ch)
+	case '!':
+		if l.peekChar() == '=' {
+			tok = token.Token{Type: token.NOT_EQUAL, Literal: "!="}
+			l.nextChar()
+		} else {
+			tok = createToken(token.BANG, l.ch)
+		}
+	case '-':
+		tok = createToken(token.MINUS, l.ch)
+	case '/':
+		tok = createToken(token.SLASH, l.ch)
+	case '*':
+		tok = createToken(token.STAR, l.ch)
+	case '<':
+		tok = createToken(token.LT, l.ch)
+	case '>':
+		tok = createToken(token.GT, l.ch)
 	case ';':
 		tok = createToken(token.SEMICOLON, l.ch)
 	case 0:
@@ -117,6 +145,14 @@ func (l *Lexer) NextToken() token.Token {
 	l.nextChar()
 
 	return tok
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.nextPos < len(l.input) {
+		return l.input[l.nextPos]
+	} else {
+		return 0
+	}
 }
 
 func endOfFile(s string, pos int) bool {
