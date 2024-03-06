@@ -98,7 +98,7 @@ This is a programming language that I am creating for fun and to learn how a pro
 
 
 
-<!-- GETTING STARTED --
+<!-- GETTING STARTED -->
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -124,9 +124,52 @@ This is an example of how to list things you need to use the software and how to
 
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### end of statement
+every statement ends with a semicolon
+```
+statement;
+```
+
+### declarations
+Use the keyword let
+```
+let variable = value;
+```
+### types
+suported types are limited to integers and booleans at the moment
+```
+let variable1 = 10;
+let variable2 = 123456789;
+let variable3 = true;
+let variable4 = false;
+```
+### functions
+you can declare a function with the fn keyword and return a value with return
+```
+fn(x, y){
+  return x + y;
+};
+```
+and you can stock it like you would with a variable
+```
+let add = fn(x, y){
+  return x + y;
+};
+```
+### if statements
+you can do an if else statement like you would with any language
+```
+if (10 == 9){
+  expression;
+}
+else{
+  expression;
+}
+```
+
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -204,10 +247,10 @@ Project Link: [https://github.com/tysufa/qfa](https://github.com/github_username
 [forks-shield]: https://img.shields.io/github/forks/tysufa/qfa.svg?style=for-the-badge
 [forks-url]: https://github.com/tysufa/qfa/network/members
 [stars-shield]: https://img.shields.io/github/stars/tysufa/qfa.svg?style=for-the-badge
-[stars-url]: https://github.com/tysufa/qfa/stargazer
-[issues-shield]: https://img.shields.io/github/issues/tysufa/qfa.svg?style=for-the-badg
-[issues-url]: https://github.com/tysufa/qfa/issue
-[license-shield]: https://img.shields.io/github/license/tysufa/qfa.svg?style=for-the-badg
+[stars-url]: https://github.com/tysufa/qfa/stargazers
+[issues-shield]: https://img.shields.io/github/issues/tysufa/qfa.svg?style=for-the-badge
+[issues-url]: https://github.com/tysufa/qfa/issues
+[license-shield]: https://img.shields.io/github/license/tysufa/qfa.svg?style=for-the-badge
 [license-url]: https://github.com/tysufa/qfa/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
