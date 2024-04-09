@@ -11,8 +11,8 @@ type Lexer struct {
 	ch      byte
 }
 
-func New(input string) Lexer {
-	return Lexer{input, 0, 1, input[0]}
+func New(input string) *Lexer {
+	return &Lexer{input, 0, 1, input[0]}
 }
 
 func createToken(t token.TokenType, l byte) token.Token {
@@ -50,14 +50,6 @@ func (l *Lexer) readIdentifier() token.Token {
 	} else {
 		tok.Type = token.IDENT
 	}
-	// switch tok.Literal {
-	// case "let":
-	// 	tok.Type = token.LET
-	// case "fn":
-	// 	tok.Type = token.FUNCTION
-	// default:
-	// 	tok.Type = token.IDENT
-	// }
 
 	return tok
 }
