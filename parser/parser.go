@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"fmt"
+
 	"github.com/tysufa/qfa/ast"
 	"github.com/tysufa/qfa/lexer"
 	"github.com/tysufa/qfa/token"
@@ -11,10 +13,12 @@ type Parser struct {
 
 	curToken  token.Token
 	peekToken token.Token
+
+	errors []string
 }
 
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{l: l, errors: []string{}}
 
 	// read 2 times because the first time curToken is not initialized, only peekToken
 	p.nextToken()
@@ -56,10 +60,37 @@ func (p *Parser) parseStatement() ast.Statement {
 func (p *Parser) parseLetStatement() ast.Statement {
 	stmt := &ast.LetStatement{Token: p.curToken}
 
-	p.nextToken()
+	if !p.checkPeekAdvance(token.IDENT) {
+		return nil
+	}
 
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
-	p.nextToken()
+
+	if !p.checkPeekAdvance(token.ASSIGN) {
+		return nil
+	}
+
+	for !p.checkToken(token.SEMICOLON) {
+		p.nextToken()
+	}
 
 	return stmt
+}
+
+func (p *Parser) checkToken(t token.TokenType) bool {
+	return p.curToken.Type == t
+}
+
+func (p *Parser) checkPeekToken(t token.TokenType) bool {
+	return p.peekToken.Type == t
+}
+
+func (p *Parser) checkPeekAdvance(t token.TokenType) bool {
+	if p.checkPeekToken(t) {
+		p.nextToken()
+		return true
+	}
+	err := fmt.Sprintf("wrong token expected : '%s' got '%s' instead", t, p.curToken.Type)
+	p.errors = append(p.errors, err)
+	return false
 }
