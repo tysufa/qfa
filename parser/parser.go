@@ -8,23 +8,56 @@ import (
 	"github.com/tysufa/qfa/token"
 )
 
+const (
+	_           = iota // we assign 0 to nothing
+	LOWEST             // 1
+	EQUALS             // 2 : ==
+	LESSGREATER        // 3 : > or <
+	SUM                // 4 : +
+	PRODUCT            // 5 : *
+	PREFIX             // 6 : -X or !X
+	CALL               // 7 : myFunction(X)
+)
+
 type Parser struct {
 	l *lexer.Lexer
 
 	curToken  token.Token
 	peekToken token.Token
 
+	prefixParseFns map[token.TokenType]prefixParseFn
+	infixParseFns  map[token.TokenType]infixParseFn
+
 	errors []string
 }
 
+func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParseFn) {
+	p.prefixParseFns[tokenType] = fn
+}
+func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParseFn) {
+	p.infixParseFns[tokenType] = fn
+}
+
+type (
+	prefixParseFn func() ast.Expression
+	infixParseFn  func(ast.Expression) ast.Expression
+)
+
 func New(l *lexer.Lexer) *Parser {
 	p := &Parser{l: l, errors: []string{}}
+
+	p.prefixParseFns = make(map[token.TokenType]prefixParseFn)
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
 
 	// read 2 times because the first time curToken is not initialized, only peekToken
 	p.nextToken()
 	p.nextToken()
 
 	return p
+}
+
+func (p *Parser) parseIdentifier() ast.Expression {
+	return &ast.Identifier{p.curToken, p.curToken.Literal}
 }
 
 func (p *Parser) nextToken() {
@@ -55,8 +88,31 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.RETURN:
 		return p.parseReturnStatement()
 	default:
+		return p.parseExpressionStatement()
+	}
+}
+
+func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+	stmt := &ast.ExpressionStatement{Token: p.curToken}
+
+	stmt.Expression = p.parseExpression(LOWEST)
+
+	if p.checkPeekToken(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
+func (p *Parser) parseExpression(priority int) ast.Expression {
+	prefix := p.prefixParseFns[p.curToken.Type]
+
+	if prefix == nil {
 		return nil
 	}
+	leftExp := prefix()
+
+	return leftExp
 }
 
 func (p *Parser) parseReturnStatement() ast.Statement {
