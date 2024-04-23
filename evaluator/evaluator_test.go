@@ -1,9 +1,9 @@
 package evaluator
 
 import (
-	"monkey/lexer"
-	"monkey/object"
-	"monkey/parser"
+	"github.com/tysufa/qfa/lexer"
+	"github.com/tysufa/qfa/object"
+	"github.com/tysufa/qfa/parser"
 	"testing"
 )
 
