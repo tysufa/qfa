@@ -105,7 +105,6 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * Download go at [https://go.dev/doc/install](https://go.dev/doc/install)
 
 ### Installation
@@ -117,6 +116,8 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    go run main.go
    ```
+
+this will launch the REPL, unofrtunatly for now it only show the progress of the lexer, since the parser is not entirely finished
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -138,7 +139,7 @@ Use the keyword let
 let variable = value;
 ```
 ### types
-suported types are limited to integers and booleans at the moment
+suported types are limited to integers and booleans at the moment. String and Arrays will be implemented later.
 ```
 let variable1 = 10;
 let variable2 = 123456789;
@@ -168,9 +169,7 @@ else{
   expression;
 }
 ```
-
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+<!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -183,8 +182,18 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 	- Extand the lexer
 		- [ ] Strings
 		- [ ] floats
+		- [ ] Arrays
 - [ ] Parser
+  - [x] Expressions
+  - [x] If else
+  - [ ] Functions
+  - [ ] Extand with string arrays floats...
+
 - [ ] Evaluator
+  - [x] integers
+  - [ ] booleans
+  - [ ] If else
+  - [ ] Functions
 
 See the [open issues](https://github.com/tysufa/qfa/issues) for a full list of proposed features (and known issues).
 
@@ -222,7 +231,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - philemon.penot@gmail.com
+Philemon PENOT - philemon.penot@gmail.com
 
 Project Link: [https://github.com/tysufa/qfa](https://github.com/github_username/repo_name)
 
@@ -234,6 +243,9 @@ Project Link: [https://github.com/tysufa/qfa](https://github.com/github_username
 ## Acknowledgments
 
 * []() Huge thanks to Thorsten Ball and his [book](https://interpreterbook.com/) wich has been the main source of inspiration for this project
+
+* []() Go check as well the [teeny tiny compiler](https://austinhenley.com/blog/teenytinycompiler1.html) tutorial, it's a great way to begin the journey of compiling
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
