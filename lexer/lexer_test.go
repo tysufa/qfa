@@ -39,7 +39,7 @@ func TestGetToken(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tok := l.getToken()
+		tok := l.GetToken()
 		if tt.expectedType != tok.Type {
 			t.Fatalf("wrong token type, expected '%s', got '%s' instead", tt.expectedType, tok.Type)
 		}

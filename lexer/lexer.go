@@ -22,7 +22,7 @@ func New(input string) *Lexer {
 	return l
 }
 
-func (l *Lexer) getToken() token.Token {
+func (l *Lexer) GetToken() token.Token {
 	var tok token.Token
 
 	l.skipSpaces()
