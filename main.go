@@ -1,5 +1,9 @@
 package main
 
+import (
+	"github.com/tysufa/qfa/repl"
+)
+
 func main() {
-	print("hello world")
+	repl.Run()
 }

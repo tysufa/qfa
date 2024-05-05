@@ -1,10 +1,17 @@
 package repl
 
 import (
-	"github.com/tysufa/qfa/lexer"
+	"bufio"
+	"fmt"
+	"os"
+	// "github.com/tysufa/qfa/lexer"
 )
 
-func main() {
-	l := lexer.New("")
-	l.GetToken()
+func Run() {
+	reader := bufio.NewReader(os.Stdin)
+	for true {
+		fmt.Print(">>> ")
+		input, _ := reader.ReadString('\n')
+		fmt.Println(input)
+	}
 }
