@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	// "github.com/tysufa/qfa/lexer"
+
+	"github.com/tysufa/qfa/lexer"
+	"github.com/tysufa/qfa/token"
 )
 
 func Run() {
@@ -12,6 +14,12 @@ func Run() {
 	for true {
 		fmt.Print(">>> ")
 		input, _ := reader.ReadString('\n')
-		fmt.Println(input)
+		l := lexer.New(input)
+		tk := l.GetToken()
+		for tk.Type != token.EOF {
+			fmt.Printf("%v : %v\n", tk.Type, tk.Value)
+			tk = l.GetToken()
+		}
+		fmt.Print("\n")
 	}
 }
