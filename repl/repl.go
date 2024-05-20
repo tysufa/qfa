@@ -3,8 +3,10 @@ package repl
 import (
 	"bufio"
 	"fmt"
+	"github.com/tysufa/qfa/token"
 	"os"
-	// "github.com/tysufa/qfa/lexer"
+
+	"github.com/tysufa/qfa/lexer"
 )
 
 func Run() {
@@ -12,6 +14,12 @@ func Run() {
 	for true {
 		fmt.Print(">>> ")
 		input, _ := reader.ReadString('\n')
-		fmt.Println(input)
+
+		l := lexer.New(input)
+		tok := l.GetToken()
+		for tok.Type != token.EOF && tok.Type != token.NL {
+			fmt.Printf("{%v : %v}\n", tok.Type, tok.Value)
+			tok = l.GetToken()
+		}
 	}
 }
