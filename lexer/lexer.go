@@ -12,8 +12,8 @@ type Lexer struct {
 	line     int
 }
 
-func New(input string) *Lexer {
-	l := &Lexer{input: input, pos: -1, line: 1}
+func New(input string) Lexer {
+	l := Lexer{input: input, pos: -1, line: 1}
 	l.nextChar()
 	l.nextChar()
 
