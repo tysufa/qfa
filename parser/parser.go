@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"github.com/tysufa/qfa/ast"
 	"github.com/tysufa/qfa/lexer"
 	"github.com/tysufa/qfa/token"
@@ -10,6 +11,7 @@ type Parser struct {
 	lex       lexer.Lexer
 	curToken  token.Token
 	peekToken token.Token
+	errors    []string
 }
 
 func New(l lexer.Lexer) *Parser {
@@ -38,5 +40,23 @@ func (p *Parser) GetStatements() ast.Program {
 }
 
 func (p *Parser) parseLet() *ast.LetStatement {
-	return &ast.LetStatement{Token: p.curToken, Name: &ast.Identifier{Value: p.peekToken.Value}}
+	let := &ast.LetStatement{Token: p.curToken}
+
+	p.expectPeek(token.IDENT)
+	let.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Value}
+	p.expectPeek(token.EQ)
+	p.expectPeek(token.INT)
+	p.expectPeek(token.SEMICOLON)
+
+	return let
+}
+
+func (p *Parser) expectPeek(expectToken token.TokenType) {
+	if p.peekToken.Type == expectToken {
+		p.nextToken()
+	} else {
+		err := fmt.Sprintf("expected '%v', got '%v' instead at line %v", expectToken, p.peekToken.Type, p.curToken.Line)
+		p.errors = append(p.errors, err)
+		p.nextToken()
+	}
 }
